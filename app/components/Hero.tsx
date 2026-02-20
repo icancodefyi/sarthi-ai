@@ -44,11 +44,32 @@ export default function Hero() {
       </div>
       {/* Partner Strip */}
       <div className="relative z-10 px-6 pb-20">
-        <p className="text-center text-[10.5px] font-semibold text-[#b8b0a8] tracking-[0.2em] uppercase mb-7">India builds with Sarthi</p>
-        <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
-          {["NIC","NABARD","Ministry of Agriculture","NHM","CSC e-Gov","NDAP","MyGov India","UIDAI"].map((name) => (
-            <span key={name} className="text-[14px] font-semibold text-[#c8c0b8] whitespace-nowrap">{name}</span>
-          ))}
+        <p className="text-center text-[12.5px] font-semibold text-[#b8b0a8] tracking-[0.2em] uppercase mb-7">India builds with Sarthi</p>
+        <div className="relative w-full overflow-hidden">
+          <div className="flex animate-scroll gap-16 w-max">
+            {[...Array(2)].map((_, setIndex) => (
+              <div key={setIndex} className="flex gap-16">
+                {[
+                  { name: "NIC", src: "/nic.png" },
+                  { name: "NABARD", src: "/NABARD.png" },
+                  { name: "Ministry of Agriculture", src: "/Ministry of Agriculture.png" },
+                  { name: "NHM", src: "/NHM.png" },
+                  { name: "CSC e-Gov", src: "/CSC e-Gov.jpeg" },
+                  { name: "NDAP", src: "/NDAP.png" },
+                  { name: "MyGov India", src: "/MyGov India.png" },
+                  { name: "UIDAI", src: "/UIDAI.jpeg" },
+                ].map((logo, index) => (
+                  <div key={index} className="flex items-center justify-center min-w-[140px]">
+                    <img
+                      src={logo.src}
+                      alt={logo.name}
+                      className="h-12 object-contain opacity-80 hover:opacity-100 transition duration-300"
+                    />
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

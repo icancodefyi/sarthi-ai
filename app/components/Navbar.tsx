@@ -20,17 +20,29 @@ export default function Navbar() {
       }}
     >
       <nav className="flex items-center justify-between px-8 py-4" style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <a href="#" className="text-[21px] font-semibold tracking-tight" style={{ color: "#0a0a0a" }}>
-          sarthi
+        <a href="#" className="flex items-center gap-2">
+          <img src="/logo.png" alt="Sarthi Logo" className="h-12.5 w-12.5  " />
+          <span className="text-[25px] font-semibold tracking-tight" style={{ color: "#0a0a0a" }}>sarthi</span>
         </a>
         <div className="hidden md:flex items-center gap-8">
-          {["PLATFORM", "FEATURES", "DEVELOPERS", "ABOUT"].map((item) => (
+          {[
+            { name: "PLATFORM", target: "platform" },
+            { name: "FEATURES", target: "features" },
+            { name: "DEVELOPERS", target: "developers" },
+            { name: "ABOUT", target: "about" }
+          ].map((item) => (
             <button
-              key={item}
-              className="flex items-center gap-0.5 text-[12.5px] font-medium transition-colors"
+              key={item.name}
+              onClick={() => {
+                const element = document.getElementById(item.target);
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+              }}
+              className="flex items-center gap-0.5 text-[12.5px] font-medium transition-colors hover:text-[#f97316]"
               style={{ color: "#7a7268", letterSpacing: "0.04em" }}
             >
-              {item}
+              {item.name}
               <span className="text-[9px] ml-0.5" style={{ color: "#b0a89e" }}>›</span>
             </button>
           ))}

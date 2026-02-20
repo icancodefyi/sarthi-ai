@@ -18,10 +18,10 @@ export default function CTA() {
             Upload a sample dataset and experience the full Sarthi pipeline — from anomaly detection to a certified policy brief — in under 2 minutes.
           </p>
           <div className="relative flex flex-col sm:flex-row items-center gap-3">
-            <button className="px-7 py-3.5 rounded-full text-[14.5px] font-semibold text-[#0d0c0b] bg-white hover:bg-[#f5f0e8] transition-colors">
+            <button className="px-7 py-3.5 rounded-full text-[14.5px] font-semibold text-[#0d0c0b] bg-white transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-orange-500/50 hover:bg-gradient-to-r hover:from-orange-400 hover:to-orange-500 hover:text-white">
               Try with Sample Data
             </button>
-            <button className="px-7 py-3.5 rounded-full text-[14.5px] font-medium text-white hover:bg-white/10 transition-colors" style={{ border: "1px solid rgba(255,255,255,0.15)" }}>
+            <button className="px-7 py-3.5 rounded-full text-[14.5px] font-medium text-white transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-purple-500/50 hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600" style={{ border: "1px solid rgba(255,255,255,0.15)" }}>
               Request a Demo
             </button>
           </div>

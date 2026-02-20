@@ -10,7 +10,7 @@ export default function HowItWorks() {
   return (
     <section className="w-full bg-white py-32 px-6">
       <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-        <p className="text-center text-[11px] font-semibold text-[#a8a29e] tracking-[0.18em] uppercase mb-5">
+        <p className="text-center text-[15px] font-semibold text-[#a8a29e] tracking-[0.18em] uppercase mb-5">
           How It Works
         </p>
         <h2
@@ -23,25 +23,26 @@ export default function HowItWorks() {
           A clear, auditable pipeline — every step is AI-driven.
         </p>
 
-        <div className="flex flex-col gap-0" style={{ borderTop: "1px solid #e8e4de" }}>
+        <div className="flex flex-col gap-6">
           {steps.map((s, i) => (
             <div
               key={s.n}
-              className="flex items-start gap-12 py-9"
-              style={{ borderBottom: "1px solid #e8e4de" }}
+              className="flex items-center gap-8 p-8 rounded-2xl border-l-4 transition-all duration-500 hover:bg-gradient-to-r hover:from-white hover:to-[#fff7ed] hover:shadow-2xl hover:scale-[1.02] hover:-translate-y-1 cursor-pointer group"
+              style={{ 
+                borderLeftColor: s.color,
+                border: "1px solid #e8e4de",
+                borderLeftWidth: "4px",
+                borderLeftColor: s.color,
+                transformStyle: "preserve-3d",
+                perspective: "1000px"
+              }}
             >
-              <div className="flex items-center gap-6 shrink-0 w-64">
+              <div className="flex items-center gap-4 shrink-0">
                 <span className="text-[13px] font-mono font-medium" style={{ color: s.color }}>{s.n}</span>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-px" style={{ background: s.color, opacity: 0.4 }} />
-                  <h3 className="text-[20px] font-semibold text-[#0a0a0a]">{s.title}</h3>
-                </div>
               </div>
-              <p className="text-[15px] text-[#6b7280] leading-relaxed pt-1" style={{ maxWidth: "560px" }}>{s.desc}</p>
-              <div className="ml-auto shrink-0 self-center">
-                <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: s.color + "15", border: `1px solid ${s.color}30` }}>
-                  <span className="text-[11px] font-bold" style={{ color: s.color }}>{i + 1}</span>
-                </div>
+              <div className="flex-1">
+                <h3 className="text-[20px] font-semibold text-[#0a0a0a] mb-2 transition-colors duration-300 group-hover:text-[#f97316]">{s.title}</h3>
+                <p className="text-[15px] text-[#6b7280] leading-relaxed">{s.desc}</p>
               </div>
             </div>
           ))}

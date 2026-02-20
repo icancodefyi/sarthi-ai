@@ -39,24 +39,19 @@ export default function Problem() {
           Public officers face three structural barriers that prevent evidence-based decision-making at scale.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-0" style={{ borderTop: "1px solid #e8e4de" }}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {problems.map((p, i) => (
             <div
               key={p.n}
-              className="flex flex-col gap-5 py-10"
-              style={{
-                paddingRight: i < 2 ? "48px" : "0",
-                paddingLeft: i > 0 ? "48px" : "0",
-                borderRight: i < 2 ? "1px solid #e8e4de" : "none",
-              }}
+              className="flex flex-col gap-5 p-8 rounded-2xl border border-[#e8e4de] bg-white transition-all duration-500 hover:bg-gradient-to-br hover:from-[#fff7ed] hover:to-white hover:shadow-2xl hover:scale-105 hover:border-[#f97316] cursor-pointer group"
             >
-              <span className="text-[13px] font-mono font-medium text-[#f97316]">{p.n}</span>
-              <div>
-                <h3 className="text-[22px] font-semibold text-[#0a0a0a] mb-3 leading-snug">{p.title}</h3>
+              <span className="text-[13px] font-mono font-medium text-[#f97316] transition-all duration-300 group-hover:text-[#ea580c] group-hover:scale-110">{p.n}</span>
+              <div className="text-center">
+                <h3 className="text-[22px] font-semibold text-[#0a0a0a] mb-3 leading-snug transition-colors duration-300 group-hover:text-[#f97316]">{p.title}</h3>
                 <p className="text-[15px] text-[#6b7280] leading-relaxed">{p.desc}</p>
               </div>
-              <div className="mt-auto pt-6" style={{ borderTop: "1px solid #f0ece6" }}>
-                <span className="text-[12px] font-medium text-[#a8a29e]">{p.stat}</span>
+              <div className="mt-auto pt-6 border-t border-[#f0ece6] text-center">
+                <span className="text-[12px] font-medium text-[#a8a29e] transition-colors duration-300 group-hover:text-[#f97316]">{p.stat}</span>
               </div>
             </div>
           ))}

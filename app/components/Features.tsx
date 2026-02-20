@@ -12,9 +12,9 @@ const modules = [
 
 export default function Features() {
   return (
-    <section className="w-full py-32 px-6" style={{ background: "#f9f8f6" }}>
-      <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-        <p className="text-center text-[11px] font-semibold text-[#a8a29e] tracking-[0.18em] uppercase mb-5">
+    <section id="platform" className="w-full py-32 px-6" style={{ background: "#f9f8f6" }}>
+      <div style={{ maxWidth: "1100px", margin:"0 auto" }}>
+        <p className="text-center text-[15px] font-semibold text-[#a8a29e] tracking-[0.18em] uppercase mb-5">
           Platform Capabilities
         </p>
         <h2
@@ -27,19 +27,17 @@ export default function Features() {
           Every module is AI-core. Remove any one and the insight collapses.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-px" style={{ border: "1px solid #e8e4de", borderRadius: "16px", overflow: "hidden" }}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {modules.map((m, i) => (
             <div
               key={m.n}
-              className="flex flex-col gap-4 p-8 bg-white transition-colors hover:bg-[#faf9f7]"
-              style={{ borderRight: (i + 1) % 3 !== 0 ? "1px solid #e8e4de" : "none", borderBottom: i < 6 ? "1px solid #e8e4de" : "none" }}
+              className="flex flex-col gap-4 p-8 bg-white rounded-2xl border border-[#e8e4de] transition-all duration-500 hover:bg-gradient-to-br hover:from-[#fff7ed] hover:to-white hover:shadow-2xl hover:scale-105 hover:border-[#f97316] cursor-pointer group"
             >
-              <div className="flex items-start justify-between gap-2">
-                <span className="text-[12px] font-mono font-semibold text-[#f97316]">{m.n}</span>
-                <span className="text-[11px] text-[#b8b0a8] leading-relaxed text-right" style={{ maxWidth: "140px" }}>{m.short}</span>
+              <div className="flex items-start justify-end">
+                <span className="text-[11px] text-[#b8b0a8] leading-relaxed text-right transition-colors duration-300 group-hover:text-[#f97316]" style={{ maxWidth: "180px" }}>{m.short}</span>
               </div>
-              <h3 className="text-[16.5px] font-semibold text-[#0a0a0a] leading-snug">{m.title}</h3>
-              <p className="text-[13.5px] text-[#7a7269] leading-relaxed">{m.desc}</p>
+              <h3 className="text-[16.5px] font-semibold text-[#0a0a0a] leading-snug text-center transition-colors duration-300 group-hover:text-[#f97316]">{m.title}</h3>
+              <p className="text-[13.5px] text-[#7a7269] leading-relaxed text-center">{m.desc}</p>
             </div>
           ))}
         </div>

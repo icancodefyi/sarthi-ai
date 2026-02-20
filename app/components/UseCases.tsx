@@ -29,7 +29,7 @@ export default function UseCases() {
   return (
     <section className="w-full bg-white py-32 px-6">
       <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-        <p className="text-center text-[11px] font-semibold text-[#a8a29e] tracking-[0.18em] uppercase mb-5">
+        <p className="text-center text-[15px] font-semibold text-[#a8a29e] tracking-[0.18em] uppercase mb-5">
           Who Uses Sarthi
         </p>
         <h2
@@ -44,22 +44,22 @@ export default function UseCases() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {personas.map((p) => (
-            <div key={p.role} className="flex flex-col gap-6 p-8 rounded-2xl" style={{ border: "1px solid #e8e4de", background: "#fdfcfa" }}>
+            <div key={p.role} className="flex flex-col gap-6 p-8 rounded-2xl border border-[#e8e4de] bg-white transition-all duration-500 hover:bg-gradient-to-br hover:from-[#fff7ed] hover:to-white hover:shadow-2xl hover:scale-105 hover:border-[#f97316] cursor-pointer group">
               <div>
-                <div className="text-3xl mb-4">{p.emoji}</div>
-                <div className="text-[11px] font-semibold text-[#a8a29e] tracking-[0.12em] uppercase mb-1">{p.dept}</div>
-                <h3 className="text-[20px] font-semibold text-[#0a0a0a] leading-snug">{p.role}</h3>
+                <div className="text-3xl mb-4 transition-transform duration-300 group-hover:scale-110">{p.emoji}</div>
+                <div className="text-[11px] font-semibold text-[#a8a29e] tracking-[0.12em] uppercase mb-1 transition-colors duration-300 group-hover:text-[#f97316]">{p.dept}</div>
+                <h3 className="text-[20px] font-semibold text-[#0a0a0a] leading-snug transition-colors duration-300 group-hover:text-[#f97316]">{p.role}</h3>
               </div>
               <p className="text-[14px] text-[#6b7280] leading-relaxed" style={{ borderTop: "1px solid #f0ece6", paddingTop: "20px" }}>{p.challenge}</p>
               <ul className="flex flex-col gap-2.5">
                 {p.uses.map((u) => (
                   <li key={u} className="flex items-start gap-2.5">
-                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#f97316] shrink-0" />
+                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#f97316] shrink-0 transition-transform duration-300 group-hover:scale-150" />
                     <span className="text-[13.5px] text-[#4a4540] leading-relaxed">{u}</span>
                   </li>
                 ))}
               </ul>
-              <blockquote className="mt-auto pt-5 text-[13px] text-[#a8a29e] italic leading-relaxed" style={{ borderTop: "1px solid #f0ece6" }}>
+              <blockquote className="mt-auto pt-5 text-[13px] text-[#a8a29e] italic leading-relaxed transition-colors duration-300 group-hover:text-[#f97316]" style={{ borderTop: "1px solid #f0ece6" }}>
                 &ldquo;{p.quote}&rdquo;
               </blockquote>
             </div>
