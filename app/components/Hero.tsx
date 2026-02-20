@@ -1,119 +1,53 @@
 export default function Hero() {
   return (
-    <section className="relative min-h-screen w-full overflow-hidden bg-white">
-      {/* Orange radial blob - top center, exactly like Sarvam */}
+    <section className="relative w-full overflow-hidden bg-white" style={{ minHeight: "100svh" }}>
+      {/* Blob */}
       <div
-        className="pointer-events-none absolute left-1/2 -translate-x-1/2 -top-32"
+        className="pointer-events-none absolute left-1/2 -translate-x-1/2 -top-40"
         style={{
-          width: "900px",
-          height: "600px",
-          background:
-            "radial-gradient(ellipse 60% 55% at 50% 0%, #f97316 0%, #c084fc 45%, #a5b4fc 70%, transparent 100%)",
-          opacity: 0.55,
-          filter: "blur(2px)",
+          width: "1000px",
+          height: "680px",
+          background: "radial-gradient(ellipse 55% 50% at 50% 0%, #fb923c 0%, #c084fc 42%, #a5b4fc 68%, transparent 100%)",
+          opacity: 0.45,
+          filter: "blur(1px)",
         }}
       />
-      
-      {/* Navigation */}
-      <nav className="relative z-10 flex items-center justify-between px-8 py-5 max-w-350 mx-auto w-full">
-        <div className="text-[22px] font-semibold text-gray-900 tracking-tight">
-          sarthi
-        </div>
-        <div className="hidden md:flex items-center gap-8">
-          <button className="text-[13px] font-medium text-gray-700 hover:text-gray-900 transition-colors flex items-center gap-1">
-            PLATFORM <span className="text-[10px]">›</span>
-          </button>
-          <button className="text-[13px] font-medium text-gray-700 hover:text-gray-900 transition-colors flex items-center gap-1">
-            DEVELOPERS <span className="text-[10px]">›</span>
-          </button>
-          <button className="text-[13px] font-medium text-gray-700 hover:text-gray-900 transition-colors flex items-center gap-1">
-            BLOGS <span className="text-[10px]">›</span>
-          </button>
-          <button className="text-[13px] font-medium text-gray-700 hover:text-gray-900 transition-colors flex items-center gap-1">
-            ABOUT <span className="text-[10px]">›</span>
-          </button>
-        </div>
-        <div className="flex items-center gap-3">
-          <button className="px-5 py-2 bg-gray-900 text-white rounded-full text-[13px] font-medium hover:bg-gray-800 transition-colors">
-            Experience Sarthi
-          </button>
-          <button className="px-5 py-2 bg-white text-gray-900 border border-gray-300 rounded-full text-[13px] font-medium hover:bg-gray-50 transition-colors">
-            Talk to Us
-          </button>
-        </div>
-      </nav>
-
-      {/* Hero Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center px-8 pt-16 pb-12 text-center">
-        {/* Decorative Ornament — two swirls like Sarvam */}
-        <div className="mb-6 flex items-center justify-center gap-4">
-          {/* Left swirl */}
-          <svg width="52" height="38" viewBox="0 0 52 38" fill="none" className="opacity-70">
-            <path d="M48 6 C 40 2, 28 2, 24 12 C 20 22, 28 30, 36 28 C 44 26, 46 18, 40 14 C 34 10, 26 14, 28 20" stroke="#6366f1" strokeWidth="1.6" strokeLinecap="round" fill="none"/>
-            <circle cx="28" cy="20" r="1.5" fill="#6366f1" opacity="0.7"/>
+      {/* Content */}
+      <div className="relative z-10 flex flex-col items-center justify-center text-center px-6" style={{ paddingTop: "clamp(120px,18vh,200px)", paddingBottom: "60px" }}>
+        {/* Ornament */}
+        <div className="mb-8 flex items-center gap-3 opacity-60">
+          <svg width="48" height="32" viewBox="0 0 48 32" fill="none">
+            <path d="M44 5C36 1 24 1 20 11C16 21 24 29 32 27C40 25 42 17 36 13C30 9 22 13 24 19" stroke="#818cf8" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+            <circle cx="24" cy="19" r="1.4" fill="#818cf8"/>
           </svg>
-          {/* Right swirl */}
-          <svg width="52" height="38" viewBox="0 0 52 38" fill="none" className="opacity-70" style={{transform:"scaleX(-1)"}}>
-            <path d="M48 6 C 40 2, 28 2, 24 12 C 20 22, 28 30, 36 28 C 44 26, 46 18, 40 14 C 34 10, 26 14, 28 20" stroke="#6366f1" strokeWidth="1.6" strokeLinecap="round" fill="none"/>
-            <circle cx="28" cy="20" r="1.5" fill="#6366f1" opacity="0.7"/>
+          <svg width="48" height="32" viewBox="0 0 48 32" fill="none" style={{ transform: "scaleX(-1)" }}>
+            <path d="M44 5C36 1 24 1 20 11C16 21 24 29 32 27C40 25 42 17 36 13C30 9 22 13 24 19" stroke="#818cf8" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+            <circle cx="24" cy="19" r="1.4" fill="#818cf8"/>
           </svg>
         </div>
-
         {/* Badge */}
-        <div className="mb-7">
-          <span
-            className="inline-block px-5 py-1.5 rounded-full text-[13px] font-medium text-indigo-700 bg-white"
-            style={{ boxShadow: "0 0 0 1.5px rgba(99,102,241,0.4), 0 1px 6px rgba(0,0,0,0.07)" }}
-          >
+        <div className="mb-8">
+          <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[12.5px] font-medium bg-white text-indigo-600" style={{ boxShadow: "0 0 0 1px rgba(99,102,241,0.25),0 1px 8px rgba(0,0,0,0.06)" }}>
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 inline-block" />
             India&apos;s Sovereign AI Governance Platform
           </span>
         </div>
-
-        {/* Main Heading */}
-        <h1
-          className="max-w-3xl text-[56px] md:text-[72px] lg:text-[82px] text-gray-900 mb-5 leading-[1.08] tracking-[-0.02em]"
-          style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontWeight: 400 }}
-        >
+        {/* Heading */}
+        <h1 className="text-[#0a0a0a] mb-6 leading-[1.06] tracking-[-0.025em]" style={{ fontFamily: "Georgia,'Times New Roman',serif", fontWeight: 400, fontSize: "clamp(48px,8vw,88px)", maxWidth: "820px" }}>
           AI for Governance<br />from India
         </h1>
-
-        {/* Subheading */}
-        <p className="text-[17px] text-gray-600 mb-1 leading-relaxed">
-          From raw data to responsible decisions. Powered by sovereign compute.
-        </p>
-        <p className="text-[17px] text-gray-600 mb-10 leading-relaxed">
-          Delivering district-level intelligence at scale.
-        </p>
-
-        {/* CTA Button */}
-        <button className="px-7 py-3 bg-gray-900 text-white rounded-full text-[15px] font-medium tracking-wide hover:bg-gray-800 transition-all shadow-sm">
+        <p className="text-[17px] text-[#6b7280] leading-relaxed mb-1" style={{ maxWidth: "480px" }}>From raw data to responsible decisions.</p>
+        <p className="text-[17px] text-[#6b7280] leading-relaxed mb-12" style={{ maxWidth: "480px" }}>Built on sovereign compute. Delivering district-level intelligence.</p>
+        <button className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-[14.5px] font-medium text-white transition-opacity hover:opacity-80" style={{ background: "#0a0a0a" }}>
           Experience Sarthi
         </button>
       </div>
-
-      {/* Bottom Section — partner strip */}
-      <div className="relative z-10 px-8 pb-16 pt-8">
-        <p className="text-center text-[11px] font-semibold text-gray-400 tracking-[0.18em] uppercase mb-8">
-          India governs with Sarthi
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4">
-          {[
-            "NIC",
-            "NABARD",
-            "Ministry of Agriculture",
-            "NHM",
-            "Infosys BPM",
-            "CSC e-Gov",
-            "UIDAI",
-            "NDAP",
-            "MyGov India",
-          ].map((name) => (
-            <span
-              key={name}
-              className="text-[15px] font-semibold text-gray-400 opacity-80 whitespace-nowrap"
-            >
-              {name}
-            </span>
+      {/* Partner Strip */}
+      <div className="relative z-10 px-6 pb-20">
+        <p className="text-center text-[10.5px] font-semibold text-[#b8b0a8] tracking-[0.2em] uppercase mb-7">India builds with Sarthi</p>
+        <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
+          {["NIC","NABARD","Ministry of Agriculture","NHM","CSC e-Gov","NDAP","MyGov India","UIDAI"].map((name) => (
+            <span key={name} className="text-[14px] font-semibold text-[#c8c0b8] whitespace-nowrap">{name}</span>
           ))}
         </div>
       </div>
