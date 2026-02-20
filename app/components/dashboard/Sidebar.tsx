@@ -48,6 +48,18 @@ const NAV_ITEMS = [
     ),
   },
   {
+    label: "Kisan AI",
+    href: "/dashboard/farmer",
+    icon: (
+      <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.6" viewBox="0 0 24 24">
+        <path d="M12 2C6 2 3 7 3 12c0 3 1.5 5.5 4 7" strokeLinecap="round" />
+        <path d="M12 2c6 0 9 5 9 10 0 3-1.5 5.5-4 7" strokeLinecap="round" />
+        <path d="M12 22v-6M9 19h6" strokeLinecap="round" />
+        <circle cx="12" cy="10" r="3" />
+      </svg>
+    ),
+  },
+  {
     label: "Verify Report",
     href: "/dashboard/verify",
     icon: (
