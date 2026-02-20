@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTTS } from "@/app/hooks/useTTS";
 import type { AIReport } from "@/types";
 
 interface Props {
@@ -15,6 +16,7 @@ export default function AIInsightPanel({ aiReport, datasetId, onGenerated }: Pro
   const [tab, setTab] = useState<Tab>("summary");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { speak, stop, speaking } = useTTS();
 
   async function runInterpretation() {
     setLoading(true);
@@ -130,9 +132,37 @@ export default function AIInsightPanel({ aiReport, datasetId, onGenerated }: Pro
 
           {/* Content */}
           {tab === "summary" && (
-            <p className="text-[14px] text-[#374151] leading-relaxed">
-              {aiReport.executiveSummary}
-            </p>
+            <div>
+              <p className="text-[14px] text-[#374151] leading-relaxed">
+                {aiReport.executiveSummary}
+              </p>
+              <button
+                onClick={() => speaking ? stop() : speak(aiReport.executiveSummary)}
+                className={`mt-3 flex items-center gap-2 text-[12px] font-medium px-3 py-1.5 rounded-lg border transition-all ${
+                  speaking
+                    ? "border-[#6366f1] text-[#6366f1] bg-[#f0f3ff]"
+                    : "border-[#e5e7eb] text-[#9ca3af] hover:border-[#6366f1] hover:text-[#6366f1]"
+                }`}
+              >
+                {speaking ? (
+                  <>
+                    <svg width="11" height="11" fill="currentColor" viewBox="0 0 24 24">
+                      <rect x="6" y="4" width="4" height="16" rx="1" /><rect x="14" y="4" width="4" height="16" rx="1" />
+                    </svg>
+                    Stop reading
+                  </>
+                ) : (
+                  <>
+                    <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                      <path d="M15.54 8.46a5 5 0 0 1 0 7.07" strokeLinecap="round" />
+                      <path d="M19.07 4.93a10 10 0 0 1 0 14.14" strokeLinecap="round" />
+                    </svg>
+                    Read aloud
+                  </>
+                )}
+              </button>
+            </div>
           )}
 
           {tab === "insights" && (

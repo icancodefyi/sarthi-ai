@@ -134,7 +134,7 @@ Given this agricultural context, incorporate crop-specific insights, weather imp
 ` : ""}
 Return ONLY valid JSON with this exact structure:
 {
-  "executiveSummary": "2-3 sentence executive summary of the dataset and key findings",
+  "executiveSummary": "10 sentence executive summary of the dataset and key findings",
   "insightHighlights": ["insight 1", "insight 2", "insight 3", "insight 4"],
   "anomalyExplanations": ["explanation for each anomaly group in plain language"],
   "riskReasoning": "1-2 sentences explaining the risk score in context",

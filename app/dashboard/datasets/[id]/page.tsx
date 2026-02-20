@@ -12,6 +12,8 @@ import Pagination from "@/app/components/dashboard/Pagination";
 import SimulationPanel from "@/app/components/dashboard/SimulationPanel";
 import SchemaPanel from "@/app/components/dashboard/SchemaPanel";
 import FarmerLinkPanel from "@/app/components/dashboard/FarmerLinkPanel";
+import DatasetChatbot from "@/app/components/dashboard/DatasetChatbot";
+import NewsCorrelation from "@/app/components/dashboard/NewsCorrelation";
 
 const NUMERIC_PAGE_SIZE = 8;
 
@@ -191,6 +193,13 @@ export default function DatasetDetailPage() {
             datasetId={id}
             onGenerated={handleAIGenerated}
           />
+          {dataset.aiReport && (
+            <NewsCorrelation
+              aiReport={dataset.aiReport}
+              analytics={dataset.analytics}
+              datasetName={dataset.originalName}
+            />
+          )}
           <AnomalyTable anomalies={dataset.analytics.anomalies} />
 
           <SimulationPanel
@@ -252,6 +261,11 @@ export default function DatasetDetailPage() {
             );
           })()}
         </>
+      )}
+
+      {/* Floating chatbot — always visible once analytics ready */}
+      {dataset.analytics && (
+        <DatasetChatbot datasetId={id} datasetName={dataset.originalName} />
       )}
     </div>
   );
