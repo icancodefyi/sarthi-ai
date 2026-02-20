@@ -17,3 +17,34 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 25s linear infinite;
+}
+
+@keyframes blinkWrong {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes blinkRight {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.blink-wrong {
+  animation: blinkWrong 1.5s infinite;
+}
+
+.blink-right {
+  animation: blinkRight 1.2s infinite;
+}

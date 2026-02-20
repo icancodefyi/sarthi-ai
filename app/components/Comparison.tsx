@@ -11,9 +11,9 @@ const rows = [
 
 export default function Comparison() {
   return (
-    <section className="w-full py-32 px-6" style={{ background: "#f9f8f6" }}>
+    <section id="features" className="w-full py-32 px-6" style={{ background: "#f9f8f6" }}>
       <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
-        <p className="text-center text-[11px] font-semibold text-[#a8a29e] tracking-[0.18em] uppercase mb-5">
+        <p className="text-center text-[16px] font-semibold text-[#a8a29e] tracking-[0.18em] uppercase mb-5">
           Why Sarthi
         </p>
         <h2
@@ -41,11 +41,11 @@ export default function Comparison() {
             >
               <span className="text-[14px] font-medium text-[#3d3530]">{r.feature}</span>
               <div className="flex items-center justify-center gap-2">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="#f1f0ee"/><path d="M4.5 4.5l5 5M9.5 4.5l-5 5" stroke="#c4bcb4" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                <svg className="blink-wrong" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="#f1f0ee"/><path d="M4.5 4.5l5 5M9.5 4.5l-5 5" stroke="#c4bcb4" strokeWidth="1.5" strokeLinecap="round"/></svg>
                 <span className="text-[13.5px] text-[#9ca3af]">{r.old}</span>
               </div>
               <div className="flex items-center justify-center gap-2">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="#fff7ed"/><path d="M3.5 7l2.5 2.5 4.5-4.5" stroke="#f97316" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                <svg className="blink-right" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="#fff7ed"/><path d="M3.5 7l2.5 2.5 4.5-4.5" stroke="#f97316" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
                 <span className="text-[13.5px] font-medium text-[#0a0a0a]">{r.sarthi}</span>
               </div>
             </div>
