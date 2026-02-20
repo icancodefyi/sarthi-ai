@@ -3,13 +3,15 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import type { Dataset, AIReport } from "@/types";
+import type { Dataset, AIReport, LinkedFarmer } from "@/types";
 import KPICards from "@/app/components/dashboard/KPICards";
 import AnalyticsChart from "@/app/components/dashboard/AnalyticsChart";
 import AIInsightPanel from "@/app/components/dashboard/AIInsightPanel";
 import AnomalyTable from "@/app/components/dashboard/AnomalyTable";
 import Pagination from "@/app/components/dashboard/Pagination";
 import SimulationPanel from "@/app/components/dashboard/SimulationPanel";
+import SchemaPanel from "@/app/components/dashboard/SchemaPanel";
+import FarmerLinkPanel from "@/app/components/dashboard/FarmerLinkPanel";
 
 const NUMERIC_PAGE_SIZE = 8;
 
@@ -21,6 +23,7 @@ export default function DatasetDetailPage() {
   const [error, setError] = useState<string | null>(null);
   const [polling, setPolling] = useState(false);
   const [numericPage, setNumericPage] = useState(1);
+  const [linkedFarmer, setLinkedFarmer] = useState<LinkedFarmer | null>(null);
 
   async function load() {
     try {
@@ -33,6 +36,9 @@ export default function DatasetDetailPage() {
         setPolling(true);
       } else {
         setPolling(false);
+      }
+      if (json.dataset.linkedFarmer) {
+        setLinkedFarmer(json.dataset.linkedFarmer);
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Failed to load");
@@ -111,17 +117,30 @@ export default function DatasetDetailPage() {
 
           <div className="flex items-center gap-3">
             {(dataset.status === "analyzed" || dataset.status === "completed") && dataset.aiReport && (
-              <Link
-                href={`/dashboard/datasets/${id}/generate-report`}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-semibold text-white"
-                style={{ background: "linear-gradient(135deg,#e97316,#fb923c)" }}
-              >
-                <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path d="M9 12h6M9 16h4M9 8h6" strokeLinecap="round" />
-                  <rect x="3" y="3" width="18" height="18" rx="2" />
-                </svg>
-                Generate Certified Report
-              </Link>
+              <>
+                <button
+                  onClick={() => window.print()}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-[13px] font-semibold text-[#374151] bg-white border border-[#e5e7eb] hover:bg-[#f9fafb] transition-colors"
+                >
+                  <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <polyline points="6 9 6 2 18 2 18 9" />
+                    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+                    <rect x="6" y="14" width="12" height="8" />
+                  </svg>
+                  Export PDF
+                </button>
+                <Link
+                  href={`/dashboard/datasets/${id}/generate-report`}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-semibold text-white"
+                  style={{ background: "linear-gradient(135deg,#e97316,#fb923c)" }}
+                >
+                  <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path d="M9 12h6M9 16h4M9 8h6" strokeLinecap="round" />
+                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                  </svg>
+                  Generate Certified Report
+                </Link>
+              </>
             )}
             <span
               className={`text-[11.5px] font-medium px-3 py-1.5 rounded-full border ${
@@ -156,6 +175,16 @@ export default function DatasetDetailPage() {
       {dataset.analytics && (
         <>
           <KPICards analytics={dataset.analytics} />
+          <SchemaPanel analytics={dataset.analytics} />
+          {dataset.category === "agricultural" && (
+            <FarmerLinkPanel
+              datasetId={id}
+              linkedFarmer={linkedFarmer}
+              onLinked={(f) => setLinkedFarmer(f)}
+              onUnlinked={() => setLinkedFarmer(null)}
+              onAnalysisComplete={(report) => handleAIGenerated(report)}
+            />
+          )}
           <AnalyticsChart analytics={dataset.analytics} />
           <AIInsightPanel
             aiReport={dataset.aiReport}

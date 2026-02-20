@@ -59,11 +59,36 @@ export interface AIReport {
   confidenceScore: number;
 }
 
+export interface LinkedFarmer {
+  aadhaar: string;
+  name: string;
+  village: string;
+  district: string;
+  state: string;
+  lat: number;
+  lon: number;
+  crops: string[];
+  landAcres: number;
+  soilType: string;
+  irrigationType: string;
+}
+
+export type DatasetCategory =
+  | "agricultural"
+  | "health"
+  | "education"
+  | "finance"
+  | "infrastructure"
+  | "environment"
+  | "social"
+  | "general";
+
 export interface Dataset {
   _id?: ObjectId | string;
   userId: string;
   filename: string;
   originalName: string;
+  category: DatasetCategory;
   status: DatasetStatus;
   metadata: {
     rowCount: number;
@@ -73,6 +98,7 @@ export interface Dataset {
   };
   analytics: Analytics | null;
   aiReport: AIReport | null;
+  linkedFarmer?: LinkedFarmer | null;
   createdAt: Date;
   updatedAt: Date;
 }

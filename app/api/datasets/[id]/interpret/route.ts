@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import Groq from "groq-sdk";
 import { getDb } from "@/lib/mongodb";
 import { MOCK_USER } from "@/lib/mockUser";
-import type { Analytics, AIReport } from "@/types";
+import type { Analytics, AIReport, LinkedFarmer } from "@/types";
+
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
@@ -31,7 +33,19 @@ export async function POST(
       );
     }
 
-    const prompt = buildPrompt(dataset.originalName as string, analytics);
+    // Fetch weather if a farmer is linked
+    let weather = null;
+    const linkedFarmer = dataset.linkedFarmer as LinkedFarmer | undefined;
+    if (linkedFarmer?.lat && linkedFarmer?.lon) {
+      try {
+        const wRes = await fetch(
+          `${APP_URL}/api/farmer/weather?lat=${linkedFarmer.lat}&lon=${linkedFarmer.lon}`
+        );
+        if (wRes.ok) weather = await wRes.json();
+      } catch { /* non-blocking */ }
+    }
+
+    const prompt = buildPrompt(dataset.originalName as string, analytics, linkedFarmer, weather);
 
     const completion = await groq.chat.completions.create({
       model: "llama-3.3-70b-versatile",
@@ -68,7 +82,14 @@ export async function POST(
   }
 }
 
-function buildPrompt(filename: string, analytics: Analytics): string {
+function buildPrompt(
+  filename: string,
+  analytics: Analytics,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  farmer?: any,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  weather?: any
+): string {
   const topAnomalies = analytics.anomalies.slice(0, 5).map((a) =>
     `Row ${a.rowIndex}: ${a.column} = ${a.value} (Z-score: ${a.zScore})`
   );
@@ -96,7 +117,21 @@ Top Anomalies:
 ${topAnomalies.length > 0 ? topAnomalies.join("\n") : "None detected"}
 
 Forecast (next 5 periods): ${analytics.forecast.map((f) => f.value).join(", ")}
-
+${farmer ? `
+--- LINKED FARMER PROFILE ---
+Name: ${farmer.name}
+Location: ${farmer.village}, ${farmer.district}, ${farmer.state}
+Crops: ${Array.isArray(farmer.crops) ? farmer.crops.join(", ") : farmer.crops}
+Land: ${farmer.landAcres} acres | Soil: ${farmer.soilType} | Irrigation: ${farmer.irrigationType}
+${weather ? `
+Current Weather at Farm Location:
+Temperature: ${weather.current?.temperature_2m ?? "N/A"}°C, Humidity: ${weather.current?.relative_humidity_2m ?? "N/A"}%
+Wind: ${weather.current?.wind_speed_10m ?? "N/A"} km/h, Precip: ${weather.current?.precipitation ?? "N/A"} mm
+7-day max temps: ${weather.daily?.temperature_2m_max?.slice(0, 7).join(", ") ?? "N/A"}
+7-day precip sum: ${weather.daily?.precipitation_sum?.slice(0, 7).join(", ") ?? "N/A"}
+` : ""}
+Given this agricultural context, incorporate crop-specific insights, weather impact on the data, and relevant farmer advisory into your analysis.
+` : ""}
 Return ONLY valid JSON with this exact structure:
 {
   "executiveSummary": "2-3 sentence executive summary of the dataset and key findings",

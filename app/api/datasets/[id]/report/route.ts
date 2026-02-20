@@ -54,6 +54,7 @@ export async function POST(
         originalName: dataset.originalName as string,
         metadata: dataset.metadata,
       },
+      ...(dataset.linkedFarmer ? { linkedFarmer: dataset.linkedFarmer } : {}),
     };
 
     // Generate integrity hash from snapshot + timestamp + IDs

@@ -3,10 +3,22 @@
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 
+const CATEGORIES = [
+  { value: "agricultural", label: "🌾 Agricultural / Farming", description: "Crop data, soil reports, yield, irrigation" },
+  { value: "health",       label: "🏥 Health & Medical",       description: "Patient data, disease surveillance, health KPIs" },
+  { value: "education",    label: "📚 Education",              description: "Enrollment, dropout rates, school performance" },
+  { value: "finance",      label: "💰 Finance & Revenue",      description: "Budget, tax collection, scheme funds" },
+  { value: "infrastructure",label:"🏗️ Infrastructure",         description: "Roads, utilities, construction progress" },
+  { value: "environment",  label: "🌿 Environment",            description: "Air quality, water, forest cover, climate" },
+  { value: "social",       label: "👥 Social Welfare",         description: "Beneficiary data, scheme coverage" },
+  { value: "general",      label: "📊 General / Other",        description: "Any other government data" },
+] as const;
+
 export default function UploadPage() {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
+  const [category, setCategory] = useState<string>("");
   const [dragging, setDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -22,13 +34,14 @@ export default function UploadPage() {
   }
 
   async function handleUpload() {
-    if (!file) return;
+    if (!file || !category) return;
     setUploading(true);
     setError(null);
 
     try {
       const formData = new FormData();
       formData.append("file", file);
+      formData.append("category", category);
 
       const res = await fetch("/api/upload", { method: "POST", body: formData });
       const json = await res.json();
@@ -57,8 +70,45 @@ export default function UploadPage() {
           Upload Dataset
         </h1>
         <p className="text-[14px] text-[#6b7280] mt-2">
-          Upload a CSV file. The analytics engine will automatically process your data.
+          Select a category and upload a CSV. The analytics engine will automatically process your data.
         </p>
+      </div>
+
+      {/* Category selector */}
+      <div className="mb-6">
+        <label className="block text-[13px] font-semibold text-[#374151] mb-3">Dataset Category <span className="text-red-400">*</span></label>
+        <div className="grid grid-cols-2 gap-2.5">
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat.value}
+              type="button"
+              onClick={() => setCategory(cat.value)}
+              className={`text-left px-4 py-3 rounded-xl border transition-all ${
+                category === cat.value
+                  ? "border-[#e97316] bg-[#fff7ed] shadow-sm"
+                  : "border-[#e5e7eb] bg-white hover:border-[#e97316] hover:bg-[#fffdf9]"
+              }`}
+            >
+              <p className="text-[13px] font-medium text-[#0a0a0a]">{cat.label}</p>
+              <p className="text-[11.5px] text-[#9ca3af] mt-0.5">{cat.description}</p>
+            </button>
+          ))}
+        </div>
+        {category === "agricultural" && (
+          <div className="mt-3 rounded-xl bg-green-50 border border-green-100 px-4 py-3 flex items-start gap-2.5 text-[13px] text-green-700">
+            <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" className="mt-0.5 shrink-0">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+            <span>
+              <strong>Kisan AI will be enabled</strong> — after upload, open the dataset and:
+              <ol className="list-decimal ml-4 mt-1 space-y-0.5 text-[12px]">
+                <li>Link a farmer&apos;s Aadhaar to attach their crop, soil &amp; land profile</li>
+                <li>Click <strong>Run Kisan Analysis</strong> to re-generate AI insights with live weather enrichment</li>
+                <li>Generate a certified report that includes the farmer attribution</li>
+              </ol>
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Drop zone */}
@@ -122,7 +172,7 @@ export default function UploadPage() {
       <div className="mt-6 flex items-center gap-4">
         <button
           onClick={handleUpload}
-          disabled={!file || uploading}
+          disabled={!file || !category || uploading}
           className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-[14px] font-semibold text-white transition-opacity disabled:opacity-40"
           style={{ background: "linear-gradient(135deg,#e97316,#fb923c)" }}
         >

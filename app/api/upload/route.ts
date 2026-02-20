@@ -11,6 +11,7 @@ export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
     const file = formData.get("file") as File | null;
+    const category = (formData.get("category") as string) || "general";
 
     if (!file) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
@@ -32,6 +33,8 @@ export async function POST(req: NextRequest) {
       userId: MOCK_USER.id,
       filename: `${datasetId}.csv`,
       originalName: file.name,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      category: category as any,
       status: "processing",
       metadata: {
         rowCount: 0,

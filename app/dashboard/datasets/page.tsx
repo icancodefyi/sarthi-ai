@@ -15,6 +15,17 @@ const STATUS_STYLES: Record<string, string> = {
   failed:     "bg-red-50 text-red-600 border-red-100",
 };
 
+const CATEGORY_META: Record<string, { label: string; color: string }> = {
+  agricultural:   { label: "🌾 Agricultural",    color: "bg-green-50 text-green-700 border-green-100" },
+  health:         { label: "🏥 Health",          color: "bg-rose-50 text-rose-700 border-rose-100" },
+  education:      { label: "📚 Education",        color: "bg-sky-50 text-sky-700 border-sky-100" },
+  finance:        { label: "💰 Finance",          color: "bg-yellow-50 text-yellow-700 border-yellow-100" },
+  infrastructure: { label: "🏗️ Infrastructure",   color: "bg-stone-50 text-stone-700 border-stone-100" },
+  environment:    { label: "🌿 Environment",      color: "bg-teal-50 text-teal-700 border-teal-100" },
+  social:         { label: "👥 Social",           color: "bg-purple-50 text-purple-700 border-purple-100" },
+  general:        { label: "📊 General",          color: "bg-gray-50 text-gray-600 border-gray-100" },
+};
+
 export default function DatasetsPage() {
   const [datasets, setDatasets] = useState<DatasetRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -134,6 +145,11 @@ export default function DatasetsPage() {
                     <span className={`inline-flex text-[11px] font-medium px-2 py-0.5 rounded-full border ${styleClass}`}>
                       {status}
                     </span>
+                    {ds.category && CATEGORY_META[ds.category] && (
+                      <span className={`inline-flex text-[11px] font-medium px-2 py-0.5 rounded-full border ${CATEGORY_META[ds.category].color}`}>
+                        {CATEGORY_META[ds.category].label}
+                      </span>
+                    )}
                   </div>
                   <p className="text-[12.5px] text-[#9ca3af]">
                     {ds.metadata.rowCount > 0
