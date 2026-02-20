@@ -18,10 +18,7 @@ export default function Footer() {
                 From raw data to responsible decisions. Sovereign AI governance intelligence for Bharat.
               </p>
             </div>
-            <div className="flex items-center gap-2 px-3.5 py-2 rounded-full self-start" style={{ border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.04)" }}>
-              <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#f97316" }} />
-              <span className="text-[12px] font-medium" style={{ color: "#7a7068" }}>Powered by Sarvam AI</span>
-            </div>
+           
           </div>
           {Object.entries(navLinks).map(([section, items]) => (
             <div key={section} className="flex flex-col gap-4">

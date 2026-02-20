@@ -21,7 +21,7 @@ export default function Navbar() {
     >
       <nav className="flex items-center justify-between px-8 py-4" style={{ maxWidth: "1200px", margin: "0 auto" }}>
         <a href="#" className="flex items-center gap-2">
-          <img src="/logo.png" alt="Sarthi Logo" className="h-8 w-auto" />
+          <img src="/logo.jpeg" alt="Sarthi Logo" className="h-8 w-auto" />
           <span className="text-[21px] font-semibold tracking-tight" style={{ color: "#0a0a0a" }}>sarthi</span>
         </a>
         <div className="hidden md:flex items-center gap-8">
