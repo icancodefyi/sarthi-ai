@@ -227,6 +227,96 @@ def process_dataset(req: ProcessRequest):
         return AnalyticsResponse(success=False, dataset_id=req.dataset_id, error=str(e))
 
 
+class SimulateRequest(BaseModel):
+    dataset_id: str
+    forecast_periods: int = 5
+    z_threshold: float = 2.5
+    growth_adjustment: float = 0.0  # % adjustment applied to forecast values
+
+
+@app.post("/simulate")
+def simulate_dataset(req: SimulateRequest):
+    """
+    Re-run a subset of analytics with user-supplied parameters.
+    Does NOT persist to DB — returns live results only.
+    """
+    try:
+        dataset = db["datasets"].find_one({"_id": req.dataset_id})
+        if not dataset:
+            raise HTTPException(status_code=404, detail="Dataset not found")
+
+        csv_content = dataset.get("csvContent")
+        if not csv_content:
+            raise HTTPException(status_code=400, detail="No CSV content stored")
+
+        df = pd.read_csv(io.StringIO(csv_content))
+        numeric_cols = df.select_dtypes(include=[np.number]).columns.tolist()
+
+        result: dict = {
+            "forecastPeriods": req.forecast_periods,
+            "zThreshold": req.z_threshold,
+            "growthAdjustment": req.growth_adjustment,
+            "forecast": [],
+            "filteredAnomalies": [],
+            "filteredRiskScore": 0.0,
+            "filteredAnomalyCount": 0,
+        }
+
+        if not numeric_cols:
+            return result
+
+        primary_col = numeric_cols[0]
+        series = df[primary_col].dropna()
+        n = len(series)
+
+        # Re-forecast with requested periods
+        if n >= 5:
+            x = np.arange(n)
+            y = series.values
+            slope, intercept, _, _, _ = stats.linregress(x, y)
+            for i in range(1, req.forecast_periods + 1):
+                period = n + i
+                predicted = slope * period + intercept
+                # Apply growth adjustment
+                adjusted = predicted * (1 + req.growth_adjustment / 100)
+                result["forecast"].append({
+                    "period": period,
+                    "value": round(float(adjusted), 4),
+                    "label": f"Period +{i}",
+                })
+
+        # Re-detect anomalies with custom threshold
+        anomalies = []
+        for col in numeric_cols:
+            col_series = df[col].dropna()
+            if len(col_series) < 10:
+                continue
+            z_scores = np.abs(stats.zscore(col_series))
+            anomaly_indices = np.where(z_scores > req.z_threshold)[0]
+            for idx in anomaly_indices[:10]:
+                original_idx = col_series.index[idx]
+                anomalies.append({
+                    "rowIndex": int(original_idx),
+                    "column": col,
+                    "value": round(float(col_series.iloc[idx]), 4),
+                    "zScore": round(float(z_scores[idx]), 4),
+                    "label": f"Outlier in {col} at row {original_idx}",
+                })
+
+        total_records = len(df)
+        anomaly_density = len(anomalies) / total_records if total_records > 0 else 0
+        result["filteredAnomalies"] = anomalies
+        result["filteredAnomalyCount"] = len(anomalies)
+        result["filteredRiskScore"] = round(min(anomaly_density * 100, 100), 1)
+
+        return result
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

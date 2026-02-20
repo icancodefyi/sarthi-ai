@@ -9,6 +9,7 @@ import AnalyticsChart from "@/app/components/dashboard/AnalyticsChart";
 import AIInsightPanel from "@/app/components/dashboard/AIInsightPanel";
 import AnomalyTable from "@/app/components/dashboard/AnomalyTable";
 import Pagination from "@/app/components/dashboard/Pagination";
+import SimulationPanel from "@/app/components/dashboard/SimulationPanel";
 
 const NUMERIC_PAGE_SIZE = 8;
 
@@ -162,6 +163,13 @@ export default function DatasetDetailPage() {
             onGenerated={handleAIGenerated}
           />
           <AnomalyTable anomalies={dataset.analytics.anomalies} />
+
+          <SimulationPanel
+            datasetId={id}
+            defaultForecast={dataset.analytics.forecast}
+            defaultAnomalyCount={dataset.analytics.anomalies.length}
+            defaultRiskScore={dataset.analytics.riskScore}
+          />
 
           {/* Numeric Summary */}
           {(() => {

@@ -80,12 +80,23 @@ export interface Dataset {
 // ─── Report ────────────────────────────────────────────────────────────────
 export interface CertificateObject {
   reportId: string;
+  userId: string;
   userName: string;
+  userEmail: string;
+  datasetId: string;
   datasetName: string;
   generatedDate: Date;
   integrityHash: string;
   aiConfidenceScore: number;
   qrCodeUrl: string;
+  snapshotSummary: {
+    totalRecords: number;
+    growthRate: number;
+    riskScore: number;
+    anomalyCount: number;
+  };
+  aiSummary: string;
+  certificationNotes: string[];
 }
 
 export interface Report {
