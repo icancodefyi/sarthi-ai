@@ -46,7 +46,7 @@ export default function Hero() {
       <div className="relative z-10 px-6 pb-20">
         <p className="text-center text-[12.5px] font-semibold text-[#b8b0a8] tracking-[0.2em] uppercase mb-7">India builds with Sarthi</p>
         <div className="relative w-full overflow-hidden">
-          <div className="flex animate-scroll gap-16 w-max">
+          <div className="flex gap-16 w-max" style={{ animation: "scroll 30s linear infinite" }}>
             {[...Array(2)].map((_, setIndex) => (
               <div key={setIndex} className="flex gap-16">
                 {[
