@@ -57,23 +57,7 @@ export default function DashboardPage() {
         </Link>
       </div>
 
-      {/* Phase status banner */}
-      <div
-        className="rounded-2xl border border-[#e0e7ff] p-6"
-        style={{ background: "linear-gradient(135deg,#f0f3ff 0%,#fff7ed 100%)" }}
-      >
-        <div className="flex items-start gap-4">
-          <div className="w-2 h-2 rounded-full bg-[#6366f1] mt-2 shrink-0" />
-          <div>
-            <h3 className="text-[14px] font-semibold text-[#0a0a0a] mb-1">Phase 1 — Core Infrastructure</h3>
-            <p className="text-[13px] text-[#6b7280] leading-relaxed">
-              MongoDB connection, CSV upload, and dataset parsing are live.{" "}
-              <strong>Phase 2</strong> (Analytics Engine) is next —{" "}
-              statistical analysis, anomaly detection, and forecasting.
-            </p>
-          </div>
-        </div>
-      </div>
+
     </div>
   );
 }
