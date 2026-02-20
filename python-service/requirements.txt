@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+pandas
+numpy
+scipy
+pymongo
+python-multipart
+python-dotenv
