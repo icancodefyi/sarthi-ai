@@ -60,7 +60,7 @@ const NAV_ITEMS = [
     ),
   },
   {
-    label: "Verify Report",
+    label: "Verify Document",
     href: "/dashboard/verify",
     icon: (
       <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.6" viewBox="0 0 24 24">
