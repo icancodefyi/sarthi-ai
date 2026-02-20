@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Analytics } from "@/types";
 
 interface Props {
   analytics: Analytics;
+  datasetId: string;
 }
 
 interface CardDef {
@@ -16,6 +17,7 @@ interface CardDef {
   icon: React.ReactNode;
   infoTitle: string;
   infoBody: { heading: string; detail: string }[];
+  kpiKey: string;
 }
 
 const cards = (a: Analytics): CardDef[] => [
@@ -32,6 +34,7 @@ const cards = (a: Analytics): CardDef[] => [
         <path d="M4 14v4c0 1.657 3.582 3 8 3s8-1.343 8-3v-4" />
       </svg>
     ),
+    kpiKey: "totalRecords",
     infoTitle: "How Total Records is counted",
     infoBody: [
       {
@@ -68,6 +71,7 @@ const cards = (a: Analytics): CardDef[] => [
         <polyline points="17 6 23 6 23 12" />
       </svg>
     ),
+    kpiKey: "growth",
     infoTitle: "How Growth % is calculated",
     infoBody: [
       {
@@ -115,6 +119,7 @@ const cards = (a: Analytics): CardDef[] => [
         <line x1="12" y1="17" x2="12.01" y2="17" strokeLinecap="round" />
       </svg>
     ),
+    kpiKey: "riskScore",
     infoTitle: "How the Risk Score is calculated",
     infoBody: [
       {
@@ -156,6 +161,7 @@ const cards = (a: Analytics): CardDef[] => [
         <line x1="21" y1="21" x2="16.65" y2="16.65" strokeLinecap="round" />
       </svg>
     ),
+    kpiKey: "anomalies",
     infoTitle: "How Anomalies are detected",
     infoBody: [
       {
@@ -184,11 +190,36 @@ const cards = (a: Analytics): CardDef[] => [
 
 function InfoModal({
   card,
+  datasetId,
   onClose,
 }: {
   card: CardDef;
+  datasetId: string;
   onClose: () => void;
 }) {
+  const [aiExplanation, setAiExplanation] = useState<string | null>(null);
+  const [aiLoading, setAiLoading] = useState(true);
+  const [aiError, setAiError] = useState(false);
+
+  useEffect(() => {
+    setAiExplanation(null);
+    setAiLoading(true);
+    setAiError(false);
+    fetch(`/api/datasets/${datasetId}/explain-kpi`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ kpiKey: card.kpiKey }),
+    })
+      .then((r) => r.json())
+      .then((j) => {
+        if (j.error) throw new Error(j.error);
+        setAiExplanation(j.explanation);
+      })
+      .catch(() => setAiError(true))
+      .finally(() => setAiLoading(false));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [card.kpiKey, datasetId]);
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
@@ -227,7 +258,34 @@ function InfoModal({
         </div>
 
         {/* Body */}
-        <div className="px-6 py-5 space-y-4 max-h-[60vh] overflow-y-auto">
+        <div className="px-6 py-5 space-y-4 max-h-[62vh] overflow-y-auto">
+          {/* AI explanation — top, most prominent */}
+          <div className="rounded-xl border border-[#e0e7ff] bg-[#f5f3ff] p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-[13px]">✦</span>
+              <p className="text-[11.5px] font-semibold text-indigo-700 uppercase tracking-wide">AI Analysis — specific to your data</p>
+            </div>
+            {aiLoading ? (
+              <div className="flex items-center gap-2 text-[12.5px] text-[#9ca3af]">
+                <svg className="animate-spin w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+                </svg>
+                Analysing your dataset…
+              </div>
+            ) : aiError ? (
+              <p className="text-[12.5px] text-red-400">Could not generate AI explanation.</p>
+            ) : (
+              <p className="text-[13px] text-indigo-900 leading-relaxed">{aiExplanation}</p>
+            )}
+          </div>
+
+          {/* Divider */}
+          <div className="flex items-center gap-3">
+            <div className="flex-1 border-t border-[#f0ede8]" />
+            <span className="text-[10.5px] text-[#c3bdb5] uppercase tracking-wide">How it works</span>
+            <div className="flex-1 border-t border-[#f0ede8]" />
+          </div>
+
           {card.infoBody.map(({ heading, detail }) => (
             <div key={heading}>
               <p className="text-[12.5px] font-semibold text-[#0a0a0a] mb-1">{heading}</p>
@@ -251,7 +309,7 @@ function InfoModal({
   );
 }
 
-export default function KPICards({ analytics }: Props) {
+export default function KPICards({ analytics, datasetId }: Props) {
   const [openCard, setOpenCard] = useState<CardDef | null>(null);
   const cardList = cards(analytics);
 
@@ -290,7 +348,7 @@ export default function KPICards({ analytics }: Props) {
         ))}
       </div>
 
-      {openCard && <InfoModal card={openCard} onClose={() => setOpenCard(null)} />}
+      {openCard && <InfoModal card={openCard} datasetId={datasetId} onClose={() => setOpenCard(null)} />}
     </>
   );
 }

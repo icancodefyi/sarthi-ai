@@ -176,7 +176,7 @@ export default function DatasetDetailPage() {
       {/* Analytics ready */}
       {dataset.analytics && (
         <>
-          <KPICards analytics={dataset.analytics} />
+          <KPICards analytics={dataset.analytics} datasetId={id} />
           <SchemaPanel analytics={dataset.analytics} />
           {dataset.category === "agricultural" && (
             <FarmerLinkPanel
