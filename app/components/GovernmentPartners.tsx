@@ -19,7 +19,7 @@ export default function GovernmentPartners() {
       <div className="relative w-full overflow-hidden">
         <div className="flex gap-16 w-max" style={{ animation: "scroll 30s linear infinite" }}>
           {[...logos, ...logos].map((logo, index) => (
-            <div key={index} className="flex items-center justify-center min-w-[180px]">
+            <div key={index} className="flex items-center justify-center min-w-45">
               <img
                 src={logo.src}
                 alt={logo.name}

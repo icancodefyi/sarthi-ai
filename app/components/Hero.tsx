@@ -59,7 +59,7 @@ export default function Hero() {
                   { name: "MyGov India", src: "/MyGov India.png" },
                   { name: "UIDAI", src: "/UIDAI.jpeg" },
                 ].map((logo, index) => (
-                  <div key={index} className="flex items-center justify-center min-w-[140px]">
+                  <div key={index} className="flex items-center justify-center min-w-35">
                     <img
                       src={logo.src}
                       alt={logo.name}
