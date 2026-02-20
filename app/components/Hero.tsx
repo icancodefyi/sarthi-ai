@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Hero() {
   return (
     <section className="relative w-full overflow-hidden bg-white" style={{ minHeight: "100svh" }}>
@@ -39,7 +41,9 @@ export default function Hero() {
         <p className="text-[17px] text-[#6b7280] leading-relaxed mb-1" style={{ maxWidth: "480px" }}>From raw data to responsible decisions.</p>
         <p className="text-[17px] text-[#6b7280] leading-relaxed mb-12" style={{ maxWidth: "480px" }}>Built on sovereign compute. Delivering district-level intelligence.</p>
         <button className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-[14.5px] font-medium text-white transition-opacity hover:opacity-80" style={{ background: "#0a0a0a" }}>
+            <Link href="/dashboard/upload" className="flex items-center gap-2">
           Experience Sarthi
+          </Link>
         </button>
       </div>
       {/* Partner Strip */}
